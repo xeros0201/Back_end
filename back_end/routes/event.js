@@ -1,6 +1,6 @@
 import express from "express";
 import { activeTicket, createEvent, createSeat, createTicket, getAllEvent, getAllEventAdmin, getEvent, getOneEvent, getOneEventAdmin, getAllOpen, updateEvent, getAllComing} from "../controller/eventController.js";
-import { verifyTicket } from "../controller/middlewareController";
+import { verifyTicket } from "../controller/middlewareController.js";
 
 
 const router = express.Router()
