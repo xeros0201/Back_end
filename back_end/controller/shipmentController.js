@@ -1,4 +1,4 @@
-import { Shipment_methodModel } from "../model/shipmentMethodModal"
+import { Shipment_methodModel } from "../model/shipmentMethodModal.js"
 
 
 

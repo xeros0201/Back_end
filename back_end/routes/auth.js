@@ -1,6 +1,6 @@
 import express from "express";
-import {createUser,loginUser,refreshToken,userLogout} from '../controller/authController'
-import{verifyToken,verifyTokenAndUser} from '../controller/middlewareController'
+import {createUser,loginUser,refreshToken,userLogout} from '../controller/authController.js'
+import{verifyToken,verifyTokenAndUser} from '../controller/middlewareController.js'
 const routerAuth = express.Router()
 
 routerAuth.post("/register",createUser)

@@ -1,5 +1,5 @@
-import { UserModel } from "../model/userModel"
-import bcrypt from 'bcrypt'
+import { UserModel } from "../model/userModel.js"
+
 
 export const getAllUser= async (req,res)=>{
     try {

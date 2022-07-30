@@ -13,7 +13,7 @@ import gen from './routes/genres.js'
 import discount from './routes/discount.js'
 import project from './routes/project.js'
 import events from './routes/event.js'
-import contact from './routes/contact'
+import contact from './routes/contact.js'
 const app= express();
 const PORT =  8001
 

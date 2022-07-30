@@ -1,10 +1,10 @@
 import jwt from 'jsonwebtoken'
 import mongoose from "mongoose";
-import { EventModel } from '../model/eventModel'
-import { ProductModel } from '../model/productModel'
-import { SeatModel } from '../model/seatModel'
-import { TicketModel } from '../model/ticketModel'
-import { UserModel } from '../model/userModel'
+import { EventModel } from '../model/eventModel.js'
+import { ProductModel } from '../model/productModel.js'
+import { SeatModel } from '../model/seatModel.js'
+import { TicketModel } from '../model/ticketModel.js'
+import { UserModel } from '../model/userModel.js'
 
 export const verifyToken= async (req,res,next)=>{
     const token = req.headers.token

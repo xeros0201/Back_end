@@ -1,4 +1,4 @@
-import { DiscountModel } from "../model/discountModel"
+import { DiscountModel } from "../model/discountModel.js"
 import jwt from 'jsonwebtoken'
 import dotenv  from "dotenv"
 dotenv.config()

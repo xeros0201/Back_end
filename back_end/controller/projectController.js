@@ -1,4 +1,4 @@
-import { ProjectModel } from "../model/project"
+import { ProjectModel } from "../model/project.js"
 
 
 

@@ -1,6 +1,6 @@
-import { BillModel } from "../model/billModel"
-import { ProductModel } from "../model/productModel"
-import { UserModel } from "../model/userModel"
+import { BillModel } from "../model/billModel.js"
+import { ProductModel } from "../model/productModel.js"
+import { UserModel } from "../model/userModel.js"
 
 
 

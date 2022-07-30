@@ -1,7 +1,7 @@
 import express from "express";
-import {getAllUser,deleteUser} from '../controller/userController'
-import{verifyToken,verifyTokenAndUser} from '../controller/middlewareController'
-import { createBill, getAllBill } from "../controller/billController";
+import {getAllUser,deleteUser} from '../controller/userController.js'
+import{verifyToken,verifyTokenAndUser} from '../controller/middlewareController.js'
+import { createBill, getAllBill } from "../controller/billController.js";
 const router = express.Router()
 
 router.get("/",verifyToken,getAllUser)

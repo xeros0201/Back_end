@@ -1,7 +1,7 @@
-import { EventModel } from "../model/eventModel"
-import { ProjectModel } from "../model/project"
-import { SeatModel } from "../model/seatModel"
-import { TicketModel } from "../model/ticketModel"
+import { EventModel } from "../model/eventModel.js"
+import { ProjectModel } from "../model/project.js"
+import { SeatModel } from "../model/seatModel.js"
+import { TicketModel } from "../model/ticketModel.js"
 
 export const createSeat= async (req,res)=>{
   try {
