@@ -16,6 +16,7 @@ export const verifyToken= async (req,res,next)=>{
               return  res.status(403).json("Token is not valid")
             }
             req.user = user;
+            console.log("here")
             next()
         })
     }else{
@@ -24,7 +25,7 @@ export const verifyToken= async (req,res,next)=>{
 }
 export const verifyTokenAndUser= async (req,res,next)=>{
     verifyToken(req,res,()=>{
-        console.log( req.body)
+    
         if(req.body[0]==="1"){
          
             next();
@@ -44,7 +45,7 @@ export const verifyTicket= async (req,res,next)=>{
     const seat  = newTicket.seatInfo
     const option =newTicket.option
     const Event = await EventModel.findById(limit)
-    console.log(typeof option)
+  
     const Seat  = await SeatModel.findOne({"option._id":option},{_id:0,option:{$elemMatch:{_id:option}}})
 
     

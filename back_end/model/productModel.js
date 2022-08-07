@@ -64,6 +64,10 @@ const schema = new mongoose.Schema({
     isPreOrder:{
         type:Boolean,
         default:false
+    },
+    isHidden:{
+        type:Boolean,
+        default:false
     }
 
 

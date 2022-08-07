@@ -8,13 +8,9 @@ const schema = new mongoose.Schema({
         required:true,
         minlength:3,
         maxlength:20,
+        
+    },
 
-    },
-    code:{
-        type:String,
-        unique:true,
-        required:true
-    },
     value:{
         type:Number,
         default:null
@@ -23,9 +19,7 @@ const schema = new mongoose.Schema({
         type:Number,
         default:null
     },
-    expired_token:{
-        type:String,
-    },
+
     number:{
         type:Number,
         required:true
@@ -33,7 +27,25 @@ const schema = new mongoose.Schema({
     status:{
         type:Boolean,
         default:true
+    },
+    startDate:{
+        type:Date,
+        required:true
+    },
+    endDate:{
+        type:Date,
+        required:true
+    },
+    userUsed:{
+        type:[String],    
+    },
+    forWhat:{
+        type:String,
+        enum:["product","event"]
     }
+
+
+
   
 },{timestamps:true})
 export const DiscountModel = mongoose.model("Discount",schema)

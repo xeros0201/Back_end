@@ -165,7 +165,7 @@ export const createTicket = async (req,res)=>{
 export const activeTicket = async (req,res)=>{
     try {
           const newTicket = req.body
-          console.log(newTicket)
+       
          if(!newTicket.isPaid){
 
              await TicketModel.findByIdAndUpdate(newTicket._id,{isPaid:true})
@@ -251,7 +251,7 @@ export const getAllOpen = async (req,res)=>{
     try {
        
          
-        const event = await EventModel.find({"eventStatus":1},{
+        const event = await EventModel.find({"eventStatus":1,},{
             "dateRange.tickets.session.onlinePayment":0,
             "dateRange.tickets.session.offlinePayment":0
         }).sort({ 'timestamp': 1 })

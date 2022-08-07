@@ -1,4 +1,5 @@
 import { BillModel } from "../model/billModel.js"
+import { DiscountModel } from "../model/discountModel.js"
 import { ProductModel } from "../model/productModel.js"
 import { UserModel } from "../model/userModel.js"
 
@@ -10,12 +11,21 @@ export const createBill= async (req,res)=>{
       
    
         const newBill = req.body
-        const bill = await new BillModel(newBill)
-        await bill.save()
-        await UserModel.findByIdAndUpdate({_id:newBill.shipment},{
-           $push:{bills:bill._id} 
-        })
-        return   res.status(200).json(bill)
+        if(!newBill.discount){
+            const bill = await new BillModel(newBill)
+            await bill.save()
+            return   res.status(200).json(bill)
+
+        }else{
+            await DiscountModel.findOneAndUpdate({"name":newBill.discount},{
+                $push :{"userUsed": newBill.buyer._id}
+            })
+            const bill = await new BillModel(newBill)
+            await bill.save()
+            return   res.status(200).json(bill)
+        }
+   
+        
     } catch (error) {
        return res.status(500).json({error:error})
     }
@@ -23,28 +33,18 @@ export const createBill= async (req,res)=>{
 export const getAllBill = async(req,res)=>{
     try {
         const bills = await BillModel.find()
-        .populate({
-            path:"shipment",
-            model:'User',
-            select:"username address phone",
-            populate:{
-                path:"cart",
-                model:'Product',
-                populate:{
-                    path:"item",
-                    model:"Product",
-                    select:"name cost",
-                    populate:{
-                        path:"genres",
-                        model:"Genres",
-                        select:"name"
-                    }
-                }
-              
-            }
-        })
-        .populate("shipment_method")
-        .populate("discount")
+  
+        return res.status(200).json(bills)
+    } catch (error) {
+        return res.status(500).json({error:error})
+    }
+}
+export const getBill = async(req,res)=>{
+    try {
+        const bill = req.params
+            console.log(bill.id)
+        const bills = await BillModel.findById(bill.id).populate("buyer")
+  
         return res.status(200).json(bills)
     } catch (error) {
         return res.status(500).json({error:error})

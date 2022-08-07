@@ -6,7 +6,44 @@ export const getProduct= async (req,res)=>{
     try {
       
         const products = await ProductModel.find().populate('genres')
-      
+        if(products.length===0){
+            let newProdcuct =[{
+                
+                    _id: "none",
+                    name: "Coming soon !",
+                    productCode: "Coming soon !",
+                    genres: [
+                        "6280ec226dcc06a7f92f2c7d"
+                    ],
+                    pics: [
+                        "https://live.staticflickr.com/65535/52253644340_216a5fe89a_o.png",
+                        "https://live.staticflickr.com/65535/52253644340_216a5fe89a_o.png",
+                        "https://live.staticflickr.com/65535/52253644340_216a5fe89a_o.png",
+                        "https://live.staticflickr.com/65535/52253644340_216a5fe89a_o.png"
+                    ],
+                    discription: "Coming soon !",
+                    moreInfo: [
+                        "Coming soon !",
+                        "Coming soon !",
+                        "CComing soon !"
+                    ],
+                    option: [
+                        {
+                            style: "coming soon",
+                            cost: 0,
+                            "thumnailPics": "https://live.staticflickr.com/65535/52253644340_216a5fe89a_o.png",
+                            number: 100,
+                   
+                        }
+                    ],
+                    isNewest: false,
+                    isBestSeller: false,
+
+       
+                
+            }]
+            return  res.status(200).json(newProdcuct)
+        }
         return  res.status(200).json(products)
     } catch (error) {
       return  res.status(500).json({error:error})

@@ -6,29 +6,19 @@ dotenv.config()
 
 
 export const createDiscount= async (req,res)=>{
-    console.log("here")
+   
     try {
-       
         const newDiscount = req.body
-        console.log(newDiscount)
-        if(newDiscount.percent&&newDiscount.value){
-            return res.status(400).json("Only value or percent not both !")
+        const check = await DiscountModel.find({"name":newDiscount.name}) 
+   
+        if(check.length===0){
+
+            const discount = await new DiscountModel(newDiscount)
+            await discount.save()
+            return res.status(200).json(discount)
+        }else{
+            return res.status(409).json("Tên giftcode này đã tồn tại")
         }
-        if(newDiscount.percent===null&&newDiscount.value===null){
-            return res.status(400).json("Must have index for value or percent !")
-        }
-        const newToken =generateAccessToken(newDiscount)
-        const discount = await new DiscountModel({
-            name: newDiscount.name,
-            code: newDiscount.code,
-            value: newDiscount.value,
-            percent: newDiscount.percent,
-            expired_token:newToken,
-            number: newDiscount.number,
-            status: newDiscount.status
-        })
-        await discount.save()
-        return res.status(200).json(discount)
     } catch (error) {
        return res.status(500).json({error:error})
     }
@@ -36,7 +26,16 @@ export const createDiscount= async (req,res)=>{
 export const getDiscount = async(req,res)=>{
     try {
         
-        const discounts = await DiscountModel().find()
+        const discounts = await DiscountModel.find()
+        return res.status(200).json(discounts)
+    } catch (error) {
+        return res.status(500).json(error)
+    }
+}
+export const getOne = async(req,res)=>{
+    try {
+        console.log(req.params)
+        const discounts = await DiscountModel.findById({"_id":req.params.id})
         return res.status(200).json(discounts)
     } catch (error) {
         return res.status(500).json(error)
@@ -46,31 +45,27 @@ export const updateDiscount = async (req,res)=>{
     try {
         
         const updateDiscount = req.body 
-        const updateToken =generateAccessToken(updateDiscount)
-        const Discount = await DiscountModel.findOneAndUpdate({
-            _id:updateDiscount._id
-        },{
-            name: updateDiscount.name,
-            code: updateDiscount.code,
-            value: updateDiscount.value,
-            percent: updateDiscount.percent,
-            expired_token:updateToken,
-            number: updateDiscount.number,
-            status: updateDiscount.status
-        },{new:true})
+     
+        const Discount = await DiscountModel.findByIdAndUpdate(updateDiscount._id)
+        return res.status(200).json(Discount)
+    } catch (error) {
+        return res.status(500).json(error)
+    }
+}
+export const updateDiscount1 = async (req,res)=>{
+    try {
+        
+        const updateDiscount = req.body 
+      
+        const Discount = await DiscountModel.find({"name":updateDiscount.name,"endDate":{ $gte : new Date()},"startDate":{$lt:new Date()},"number":{$gt:0}})
+        
+        if(Discount.length===0){
+            return res.status(410).json("Code bạn nhập không đúng hoặc đã hết hạn xin vui lòng thử lại !")
+        }
+       
         return res.status(200).json(Discount)
     } catch (error) {
         return res.status(500).json(error)
     }
 }
 
-export const generateAccessToken=  (discount)=>{
-
-    return jwt.sign({
-     
-     name: discount.name
-    },
- process.env.JWT_ACCESS_KEY,
- {expiresIn:discount.expired_token}
- )
- }

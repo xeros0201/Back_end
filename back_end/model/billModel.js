@@ -6,42 +6,75 @@ const schema = new mongoose.Schema({
     name:{
         type: String,
         required:true,
-        minlength:6,
-        maxlength:20,
+      
  
     },
+    buyer:{
   
-    shipment:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:"User",
+            type:mongoose.Schema.Types.ObjectId,
+       
+
+
+        
+    },
+    shipmentDetail:{
+        fullAdress:{
+            type:String,
+            required:true
+        },
+        city:{
+            type:String,
+            required:true
+        },
+        
+        district:{
+            type:String,
+            required:true
+        },
+        wards:{
+            type:String,
+            required:true  
+        }
+
+    },
+    products:{
+        type:[Object],
         required:true
     },
     tolal_cost:{
         type:Number,
         
     },
-    payment:{
+    isOnlinePayment:{
         type:Boolean,
         
         default:false
     },
-    shipment_method:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:"Shipment_method",
+    isUseShipmentService:{
+        type:Boolean,
+        required:true
+    },
+    isCOD:{
+        // thanh toan khi nhan hang, bao gom ca nhan truc tiep
+        type:Boolean,
         required:true
     },
     shipcode:{
         type:String,
-        unique:true,
+  
     },
     status:{
+
         type:String,
-        required:true
+        enum:['pending','repare','shipping','done']
     },
     discount:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:"Discount",
+        type:String,
+    
           
+    },
+    message:{
+        type:String
     }
 
 },{timestamps:true})

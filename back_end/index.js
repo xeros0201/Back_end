@@ -14,6 +14,8 @@ import discount from './routes/discount.js'
 import project from './routes/project.js'
 import events from './routes/event.js'
 import contact from './routes/contact.js'
+import city from './routes/city.js'
+import bill from './routes/bill.js'
 const app= express();
 const PORT =  8001
 
@@ -23,14 +25,17 @@ mongoose.connect(process.env.MG_URL,
 { useNewUrlParser:true, useUnifiedTopology:true,
 }).then(()=>{
     console.log("Connected")
+
 }).catch(err =>{
     console.log('err',err)
 })
-
+app.get('/',(req,res)=>{
+    res.send('<h1>success</>')
+})
 app.disable('etag');
 
-app.use(bodyParser.json({limit:"50mb"}));
-app.use(bodyParser.urlencoded({extended:true,limit:"50mb"    }));
+app.use(bodyParser.json({limit:"100mb"}));
+app.use(bodyParser.urlencoded({extended:true,limit:"100mb"    }));
 app.use(cors());
 app.use(morgan("common"));
 app.use(cookieParser())
@@ -48,7 +53,8 @@ app.use("/api/project",project)
 app.use("/api/event",events)
 
 app.use("/api/contact",contact)
-
+app.use("/api/city",city)
+app.use("/api/bill",bill)
 app.listen(PORT,()=>{
     console.log("server is running")
 })

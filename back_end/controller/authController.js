@@ -21,7 +21,10 @@ export const createUser= async (req,res)=>{
                     username: req.body.username,
                     name:req.body.name,
                     email:req.body.email,
-                    password:hashed, })
+                    password:hashed,
+                    phone:req.body.phone
+                
+                })
                 await user.save()
                 return   res.status(200).json(user)
             }
@@ -41,14 +44,14 @@ export const loginUser= async (req,res)=>{
         
         const  user = await UserModel.findOne({username:req.body.username})
         if(!user){
-            return res.status(404).json("Wrong user or password ")
+            return res.status(404).send({message:"*Tên người dùng bạn nhập không tồn tại."})
         }
         const validPassword = await bcrypt.compare(
             req.body.password,
             user.password
         )
         if(!validPassword){
-            return res.status(404).json("Wrong user or password")
+            return res.status(404).send({message:"*Tên người dùng hoặc mật khẩu bạn nhập không chính xác."})
             
         }
         if(user&&validPassword){
@@ -103,18 +106,18 @@ export const generateRefreshToken=  (user)=>{
      admin: user.role
  },
  process.env.JWT_REFRESH_KEY,
- {expiresIn:"365d"}
+ {expiresIn:"365d"} 
  )
  }
  export const refreshToken= async (req,res)=>{
      
     const refreshToken =req.cookies.refreshToken
+   
     if(!refreshToken){
-        return res.status(401).json("You are not autheticated")    
+
+        return res.status(200).json("You are not autheticated")    
     }
-    if(!refreshTokens.includes(refreshToken)){
-        return res.status(403).json("Refresh is not valid"); 
-    }
+  
     jwt.verify(refreshToken,process.env.JWT_REFRESH_KEY,(err,user)=>{
         if(err){
            return console.log(err)
@@ -137,9 +140,9 @@ export const generateRefreshToken=  (user)=>{
  }
  export const userLogout= async (req,res)=>{
      try {
-        console.log("123")
+     
         res.clearCookie("refreshToken")
-        refreshTokens =refreshTokens.filter(token => token !==req.cookies.refreshToken)
+        
         return res.status(200).json("Logged out!")
      } catch (error) {
          return res.status(500).json("loii")
